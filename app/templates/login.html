@@ -1,0 +1,35 @@
+<!-- extend from base layout -->
+{% extends "base.html" %}
+{% block content %}
+<script type="text/javascript">
+	function set_openid(openid,pr){
+		u = openid.search('<username>')
+		if(u != -1){
+			// openid requires username
+			user = prompt('Enter your ' + pr + ' username:');
+			openid = openid.substr(0,u) + user;
+		}
+		form = document.forms['login'];
+		form.elements['openid'].value = openid;
+	}
+
+</script>
+<h1>Sign in</h1>
+<form action="" method="post" name="login">
+	{{form.hidden_tag()}}
+	<p>
+		请输入OpenID:<br>
+		{{form.openid(size=80)}}<br>
+		{% for error in form.errors.openid %}
+			<span style="color:red;">[{{error}}]</span>
+		{% endfor%}
+		|{% for pr in providers %}
+			<a href="javascript:set_openid('{{pr.url}}','{{pr.name}}')">{{pr.name}}</a>|
+		{% endfor %}
+	</p>
+	<p>{{form.remember_me}} 记住我</p>
+	<p><input type="submit" value="Sign In"></p>
+</form>
+{% endblock %}
+
+<!-- 我们在配置中开启了CSRF(跨站伪造请求)功能，模板参数 {{ form.hidden_tag() }} 会被替换成一个具有防止CSRF功能的隐藏表单字段。在开启了CSRF功能后，所有模板的表单中都需要添加这个模板参数。 -->
