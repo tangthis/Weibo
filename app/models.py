@@ -30,7 +30,7 @@ class User(db.Model):
 	def get_id(self):
 		return self.id
 	def avatar(self, size):
-		return 'http://www.gravatar.com/avatar/' + md5(self.email).hexdigest() + '?d=mm&s=' + str(size)
+		return 'http://www.gravatar.com/avatar/' + md5(self.email.encode('utf8')).hexdigest() + '?d=mm&s=' + str(size)
 
 	#静态方法
 	@staticmethod
