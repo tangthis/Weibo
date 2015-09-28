@@ -8,12 +8,12 @@
 from flask import render_template, flash, redirect, session, url_for, request, g, jsonify
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app,db,lm,oid
-from .models import User, Post
+from .models import User, Post, ROLE_USER
 from .forms import LoginForm
 
 @lm.user_loader
 def load_user(id):
-    return User.query.get(int(id))
+    return User.query.get(id)
 
 @app.route('/index')
 @login_required
@@ -81,3 +81,8 @@ def after_login(resp): #传给after_login方法的resp参数包含了OpenID prov
 @app.before_request
 def before_request():
 	g.user = current_user
+
+@app.route("/logout")
+def logout():
+	logout_user()
+	return redirect(url_for('index'))
