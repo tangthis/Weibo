@@ -1,0 +1,23 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+ 
+{% block content %}
+<h1>Edit Your Profile</h1>
+<form action="" method="post" name="edit">
+    {{form.hidden_tag()}}
+    <table>
+        <tr>
+            <td>你的昵称:</td>
+            <td>{{form.nickname(size = 24)}}</td>
+        </tr>
+        <tr>
+            <td>关于自己:</td>
+            <td>{{form.about_me(cols = 32, rows = 4)}}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="保存"></td>
+        </tr>
+    </table>
+</form>
+{% endblock %}
