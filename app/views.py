@@ -83,7 +83,7 @@ def after_login(resp): #传给after_login方法的resp参数包含了OpenID prov
 @app.before_request
 def before_request():
 	g.user = current_user
-	if g.user.is_authenticated():
+	if g.user.is_authenticated:
 		g.user.last_seen = datetime.utcnow()
 		db.session.add(g.user)
 		db.session.commit()
@@ -120,17 +120,18 @@ def edit():
 		db.session.commit()
 		flash('Your changes have been saved.')
 		return redirect(url_for('edit'))
-    else:
+	else:
 		form.nickname.data = g.user.nickname
 		form.about_me.data = g.user.about_me
 	return render_template('edit.html',form = form)
 
-
+'''
 @app.errorhandler(404)
 def internal_error(error):
 	return render_template('404.html'), 404
- 
+
 @app.errorhandler(500)
 def internal_error(error):
 	db.session.rollback()
-    return render_template('500.html'), 500
+	return render_template('500.html'), 500
+'''

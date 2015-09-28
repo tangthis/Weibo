@@ -34,7 +34,7 @@ class User(db.Model):
 
 	#静态方法
 	@staticmethod
-    def make_unique_nickname(nickname):
+	def make_unique_nickname(nickname):
 		if User.query.filter_by(nickname = nickname).first() == None:
 			return nickname
 		version = 2
