@@ -8,7 +8,14 @@
         <td><h1>用户昵称: {{user.nickname}}</h1></td>
         {% if user.about_me %}<p>{{user.about_me}}</p>{% endif %}
         {% if user.last_seen %}<p><i>最后登陆时间: {{user.last_seen}}</i></p>{% endif %}
-        {% if user.id == g.user.id %}<p><a href="{{url_for('edit')}}">修改资料</a></p>{% endif %}
+        <p>{{user.followers.count()}} followers | 
+        {% if user.id == g.user.id %}
+        <p><a href="{{url_for('edit')}}">修改资料</a></p>
+        {% elif not g.user.is_following(user) %}
+			<a href="{{url_for('follow', nickname = user.nickname)}}">Follow</a>
+		{% else %}
+			<a href="{{url_for('unfollow', nickname = user.nickname)}}">Unfollow</a>
+        {% endif %}
     </tr>
 </table>
 <hr>

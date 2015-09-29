@@ -9,6 +9,13 @@ from hashlib import md5
 ROLE_USER = 0
 ROLE_ADMIN = 1
 
+
+#关注表
+followers = db.Table('followers',
+	db.Column('follower_id',db.Integer,db.ForeignKey('user.id')),
+	db.Column('followed_id',db.Integer,db.ForeignKey('user.id'))
+	)
+
 #创建User类
 #字段使用db.Column类创建实例
 #__repr__方法告诉Python如何打印class对象，方便我们调试使用。 
@@ -20,6 +27,13 @@ class User(db.Model):
 	posts = db.relationship('Post', backref = 'author', lazy = 'dynamic')
 	about_me = db.Column(db.String(140))
 	last_seen = db.Column(db.DateTime)
+	followed = db.relationship('User',
+		secondary = followers,
+		primaryjoin = (followers.c.follower_id == id),
+		secondaryjoin = (followers.c.followed_id == id),
+		backref = db.backref('followers',lazy = 'dynamic'),
+		lazy = 'dynamic'
+		)
 
 	def is_authenticated(self):
 		return True
@@ -31,6 +45,22 @@ class User(db.Model):
 		return self.id
 	def avatar(self, size):
 		return 'http://www.gravatar.com/avatar/' + md5(self.email.encode('utf8')).hexdigest() + '?d=mm&s=' + str(size)
+
+	def follow(self,user):
+		if not self.is_following(user):
+			self.followed.append(user)
+			return self
+
+	def unfollow(self,user):
+		if self.is_following(user):
+			self.followed.remove(user)
+			return self
+
+	def is_following(self,user):
+		return self.followed.filter(followers.c.followed_id == user.id).count > 0
+
+	def followed_posts(self):
+		return Post.query.join(followers,(followers.c.followed_id == Post.user_id)).filter(followers.c.follower_id == self.id).order_by(Post.timestamp.desc())
 
 	#静态方法
 	@staticmethod
