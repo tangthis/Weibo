@@ -13,6 +13,8 @@ SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 CSRF_ENABLED = True #启用了跨站请求攻击保护
 SECRET_KEY = 'you-will-never-guess' #token供表单验证
 
+POSTS_PER_PAGE = 3
+
 OPENID_PROVIDERS = [
 	{ 'name': 'OpenID', 'url': 'http://tangthis.openid.org.cn/' },
     { 'name': 'Google', 'url': 'https://www.google.com/accounts/o8/id' },
