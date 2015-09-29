@@ -24,12 +24,12 @@ def load_user(id):
 def index(page = 1):
 	form = PostForm()
 	if form.validate_on_submit():
-		post = Post(body = form.post.data ,timestamp = datetime.utcnow,author = g.user)
+		post = Post(body = form.post.data ,timestamp = datetime.utcnow(),author = g.user)
 		db.session.add(post)
 		db.session.commit()
 		flash('Your post is now live!')
 		return redirect(url_for('index'))
-	posts = g.user.followed_posts().paginate(page,POSTS_PER_PAGE,False)
+	posts = g.user.followed_posts().paginate(page, POSTS_PER_PAGE, False)
 	return render_template('index.html',
 			title = 'Home',
 			form = form,
@@ -72,7 +72,9 @@ def after_login(resp): #传给after_login方法的resp参数包含了OpenID prov
 		db.session.add(user)
 		db.session.commit()
 		# make the user follow self
-		db.session.add(user.follow(user))
+		follow1 = user.follow(user);
+		#print('==================',follow1)
+		db.session.add(follow1)
 		db.session.commit()
 	remember_me = False
 	if 'remember_me' in session:
