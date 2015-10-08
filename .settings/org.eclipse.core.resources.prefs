@@ -1,5 +1,7 @@
-#Thu Oct 08 15:08:17 CST 2015
+#Thu Oct 08 17:01:01 CST 2015
 eclipse.preferences.version=1
+encoding//app/__init__.py=utf-8
+encoding//app/emails.py=utf-8
 encoding//app/forms.py=utf-8
 encoding//app/models.py=utf-8
 encoding/config.py=utf-8

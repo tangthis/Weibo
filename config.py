@@ -23,3 +23,13 @@ OPENID_PROVIDERS = [
     { 'name': 'AOL', 'url': 'http://openid.aol.com/<username>' },
     { 'name': 'Flickr', 'url': 'http://www.flickr.com/<username>' }
     ]
+
+#=========== Mail配置========
+MAIL_SERVER = 'stmp.163.com'
+MAIL_PORT = 465
+MAIL_USE_TLS = False
+MAIL_USE_SSL = True
+MAIL_USENAME = 'tangthis'
+MAIL_PASSWORD = 'pwd'
+
+ADMINS = ['tangthis@163.com']
